@@ -2,12 +2,41 @@ version: "3.4"
 services:
   bai_vite:
     container_name: bai_vite
+    restart: unless-stopped
     build:
-      context: ./root
+      context: ./frontend/root
       dockerfile: ../Dockerfile
     ports:
       - 8005:8005
     volumes:
-      - ./root:/app
+      - ./frontend/root:/app
       - /app/node_modules
       - /app/dist
+  bai_laravel:
+    container_name: bai_laravel
+    restart: unless-stopped
+    build:
+      context: ./backend/
+      dockerfile: ./Dockerfile
+    ports:
+      - 8006:8000
+    volumes:
+      - ./backend:/app
+      - /app/vendor
+    depends_on:
+      - "bai_db"
+  bai_db:
+    container_name: bai_db
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    ports:
+      - 8007:3306
+    environment:
+      - MYSQL_DATABASE=bai
+      - MYSQL_ROOT_PASSWORD=bai2023
+    volumes:
+      - baidbdata:/var/lib/mysql
+
+volumes:
+  baidbdata:
