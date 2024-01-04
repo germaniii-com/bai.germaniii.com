@@ -1,0 +1,6 @@
+.root {
+  & .content {
+    height: 100vh;
+    background-color: yellow;
+  }
+}

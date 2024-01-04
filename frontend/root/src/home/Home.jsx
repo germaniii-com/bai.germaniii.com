@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import reactLogo from "../assets/react.svg";
-import "./App.css";
+import style from "./index.module.scss";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 
-function App() {
+function Home() {
   const [serverStatus, setServerStatus] = useState(false);
   const fetchServerHealth = useCallback(
     () =>
@@ -15,26 +16,16 @@ function App() {
   useEffect(() => fetchServerHealth, [setServerStatus]);
 
   return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
+    <div className={style.root}>
+      <Navbar />
+      <div className={style.content}>
         <button onClick={fetchServerHealth}>
           Server {serverStatus ? "can be reached" : "cannot be reached"}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <Footer />
+    </div>
   );
 }
 
-export default App;
+export default Home;
