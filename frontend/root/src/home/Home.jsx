@@ -17,6 +17,15 @@ function Home() {
   return (
     <MainLayout>
       <div className={style.content}>
+        <div className={style.floatee}>
+          <h1>B.A.I.</h1>
+          <h4>Beyond Automated Interaction</h4>
+          <p>
+            B.A.I. is a web application to interact with various Open Source
+            Large Language Models. Check out BAI today.
+          </p>
+          <button>Request a demo {">"}</button>
+        </div>
         <button onClick={fetchServerHealth}>
           Server {serverStatus ? "can be reached" : "cannot be reached"}
         </button>
