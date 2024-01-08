@@ -1,6 +1,4 @@
-.root {
-  & .content {
-    height: 100vh;
-    background-color: yellow;
-  }
+.content {
+  height: 100vh;
+  background-color: yellow;
 }

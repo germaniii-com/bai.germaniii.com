@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import style from "./index.module.scss";
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
+import MainLayout from "../components/MainLayout";
 
 function Home() {
   const [serverStatus, setServerStatus] = useState(false);
@@ -16,15 +15,13 @@ function Home() {
   useEffect(() => fetchServerHealth, [setServerStatus]);
 
   return (
-    <div className={style.root}>
-      <Navbar />
+    <MainLayout>
       <div className={style.content}>
         <button onClick={fetchServerHealth}>
           Server {serverStatus ? "can be reached" : "cannot be reached"}
         </button>
       </div>
-      <Footer />
-    </div>
+    </MainLayout>
   );
 }
 
