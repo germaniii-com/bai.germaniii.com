@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import style from "./index.module.scss";
 import MainLayout from "../components/MainLayout";
+import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 
 function Home() {
   const [serverStatus, setServerStatus] = useState(false);
+  const [accessRequest, setAccessRequest] = useState(0); // 0 - default, 1 - sign up, 2 - login
+  const [formData, setFormData] = useState("");
+  const [formError, setFormError] = useState();
   const fetchServerHealth = useCallback(
     () =>
       fetch("http://localhost:8006/api/health")
@@ -11,6 +15,20 @@ function Home() {
         .catch(() => setServerStatus(false)),
     [setServerStatus]
   );
+  const submitForm = () => {
+    if (accessRequest == 1) {
+      if (!formData.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/))
+        setFormError("Invalid Email");
+      else alert("valid email");
+    } else {
+      if (formData.length < 10) setFormError("Invalid Access Code");
+      else alert("valid access code");
+    }
+  };
+  const onInputChange = (newValue) => {
+    setFormError(undefined);
+    setFormData(newValue);
+  };
 
   useEffect(() => fetchServerHealth, [setServerStatus]);
 
@@ -18,17 +36,50 @@ function Home() {
     <MainLayout>
       <div className={style.content}>
         <div className={style.floatee}>
-          <h1>B.A.I.</h1>
-          <h4>Beyond Automated Interaction</h4>
+          <div className={style.header}>B.A.I.</div>
+          <div className={style.subheader}>Beyond Automated Interaction</div>
           <p>
             B.A.I. is a web application to interact with various Open Source
             Large Language Models. Check out BAI today.
           </p>
-          <button>Request a demo {">"}</button>
+          {!accessRequest && (
+            <div className={style.requestButton}>
+              <button onClick={() => setAccessRequest(1)}>
+                Request a demo {">"}
+              </button>
+              <span onClick={() => setAccessRequest(2)}>
+                Already have an access code?
+              </span>
+            </div>
+          )}
+          {!!accessRequest && (
+            <div className={style.form}>
+              <form onSubmit={(e) => e.preventDefault()}>
+                {!!formError && <p>{formError}</p>}
+                <input
+                  type="text"
+                  id="fieldData"
+                  placeholder={accessRequest == 1 ? "Email" : "Access Code"}
+                  value={formData}
+                  onChange={(e) => onInputChange(e.target.value)}
+                  required
+                />
+              </form>
+              <div className={style.buttonsHolder}>
+                <div
+                  className={style.backButtonHolder}
+                  onClick={() => setAccessRequest(0)}
+                >
+                  <BiLeftArrowAlt /> Back
+                </div>
+                <div className={style.sendButtonHolder} onClick={submitForm}>
+                  {accessRequest == 1 ? "Request" : "Access"}
+                  <BiRightArrowAlt />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <button onClick={fetchServerHealth}>
-          Server {serverStatus ? "can be reached" : "cannot be reached"}
-        </button>
       </div>
     </MainLayout>
   );
