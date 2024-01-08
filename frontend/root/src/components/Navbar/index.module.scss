@@ -1,5 +1,23 @@
 .navbar {
   width: 100%;
   height: fit-content;
-  background-color: red;
+  padding: 1em 0 1em 0;
+  background-color: white;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+
+  span {
+    padding-left: 1em;
+
+    & .capitalTitle {
+      display: inline;
+      font-weight: bold;
+      font-size: 1.5em;
+    }
+  }
+
+  svg {
+    padding-right: 1em;
+  }
 }
