@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Home from "./home/Home";
+import Chat from "./chat/Chat";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -10,12 +11,8 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/register",
-    element: <h2>Register Page</h2>,
-  },
-  {
     path: "/chat",
-    element: <h2>Chat Page</h2>,
+    element: <Chat />,
   },
 ]);
 
