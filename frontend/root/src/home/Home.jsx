@@ -68,7 +68,10 @@ function Home() {
               <div className={style.buttonsHolder}>
                 <div
                   className={style.backButtonHolder}
-                  onClick={() => setAccessRequest(0)}
+                  onClick={() => {
+                    setFormData("");
+                    setAccessRequest(0);
+                  }}
                 >
                   <BiLeftArrowAlt /> Back
                 </div>
