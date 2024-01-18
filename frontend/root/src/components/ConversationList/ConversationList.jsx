@@ -1,9 +1,10 @@
-import { useState } from "react";
+import ConversationListItem from "./../ConversationListItem/ConversationListItem";
 import styles from "./index.module.scss";
 
 const conversations = [
   {
-    title: "Convo 1",
+    title:
+      "Convo 1sldkfjaslkdfjasdflkasfjdlaksdfjasflkajsdfalkfjadflaksfdjasldfk",
     lastMessage: "What is the color of green",
     send_at: "12/27",
   },
@@ -23,14 +24,13 @@ function ConversationList() {
   return (
     <div className={styles.chatList}>
       <h3>Conversations</h3>
-      <div>
+      <div className={styles.list}>
         {conversations.map((convo) => (
-          <>
-            {convo.title}
-            {convo.lastMessage}
-            {convo.send_at}
-            <br />
-          </>
+          <ConversationListItem
+            title={convo.title}
+            lastMessage={convo.lastMessage}
+            sendAt={convo.send_at}
+          />
         ))}
       </div>
     </div>

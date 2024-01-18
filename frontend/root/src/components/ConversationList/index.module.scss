@@ -7,4 +7,15 @@
   border-color: black;
   border-radius: 1em;
   box-shadow: 2px 2px 3px grey;
+
+  h3 {
+    padding-left: 1em;
+    font-weight: bolder;
+  }
+
+  & .list {
+    border-radius: 1em;
+    height: 100vh;
+    width: 100%;
+  }
 }

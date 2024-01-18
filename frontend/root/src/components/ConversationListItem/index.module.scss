@@ -1,0 +1,28 @@
+.itemWrapper {
+  padding: 1em;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: grey;
+    color: white;
+  }
+
+  & .title {
+    font-size: medium;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  & .lastMessage {
+    font-size: small;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  & .sendAt {
+    padding-top: 0.5em;
+    font-size: small;
+    text-align: end;
+  }
+}
