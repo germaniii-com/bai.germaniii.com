@@ -1,8 +1,10 @@
 import { useState } from "react";
 import styles from "./index.module.scss";
 import { BiSend } from "react-icons/bi";
+import { useParams } from "react-router-dom";
 
 function ChatBox() {
+  const params = useParams();
   const [prompt, setPrompt] = useState("");
   const [sendDisabled, setSendDisabled] = useState(true);
 
@@ -18,7 +20,9 @@ function ChatBox() {
         <div className={styles.titleHolder}>
           <h1>Chat 1</h1>
         </div>
-        <div className={styles.conversationBubblesHolder}></div>
+        <div className={styles.conversationBubblesHolder}>
+          {params.conversationId ?? "Nothing is loaded"}
+        </div>
         <div className={styles.inputHolder}>
           <form onSubmit={(e) => e.preventDefault()}>
             <textarea

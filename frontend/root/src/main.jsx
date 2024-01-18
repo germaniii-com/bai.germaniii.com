@@ -11,7 +11,17 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/chat",
+    path: "/chat/:conversationId?",
+    loader: async () => {
+      // const user = await fake.getUser();
+      // if (!user) {
+      //   throw redirect("/login");
+      // }
+      // // otherwise continue
+      // const stats = await fake.getDashboardStats();
+      // return { user, stats };
+      return null;
+    },
     element: <Chat />,
   },
 ]);

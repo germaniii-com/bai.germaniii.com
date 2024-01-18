@@ -2,12 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import style from "./index.module.scss";
 import MainLayout from "../components/MainLayout";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [serverStatus, setServerStatus] = useState(false);
   const [accessRequest, setAccessRequest] = useState(0); // 0 - default, 1 - sign up, 2 - login
   const [formData, setFormData] = useState("");
   const [formError, setFormError] = useState();
+  const reroute = useNavigate();
   const fetchServerHealth = useCallback(
     () =>
       fetch("http://localhost:8006/api/health")
@@ -22,7 +24,7 @@ function Home() {
       else alert("valid email");
     } else {
       if (formData.length < 10) setFormError("Invalid Access Code");
-      else alert("valid access code");
+      else reroute("/chat");
     }
   };
   const onInputChange = (newValue) => {
