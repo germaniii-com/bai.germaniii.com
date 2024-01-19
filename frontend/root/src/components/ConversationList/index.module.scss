@@ -8,9 +8,23 @@
   border-radius: 1em;
   box-shadow: 2px 2px 3px grey;
 
-  h3 {
-    padding-left: 1em;
-    font-weight: bolder;
+  & .chatListHeader {
+    padding: 0 1em;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+
+    h3 {
+      font-weight: bolder;
+    }
+    svg {
+      width: 25px;
+      height: 25px;
+      &:hover {
+        color: gray;
+        cursor: pointer;
+      }
+    }
   }
 
   & .list {

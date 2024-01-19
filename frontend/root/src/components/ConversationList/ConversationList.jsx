@@ -1,6 +1,7 @@
 import ConversationListItem from "./../ConversationListItem/ConversationListItem";
 import styles from "./index.module.scss";
 import { useNavigate } from "react-router-dom";
+import { BiPencil } from "react-icons/bi";
 
 const conversations = [
   {
@@ -29,7 +30,10 @@ function ConversationList() {
   const reroute = useNavigate();
   return (
     <div className={styles.chatList}>
-      <h3>Conversations</h3>
+      <div className={styles.chatListHeader}>
+        <h3>Conversations</h3>
+        <BiPencil />
+      </div>
       <div className={styles.list}>
         {conversations.map((convo) => (
           <div onClick={() => reroute(`/chat/${convo.id}`)}>
