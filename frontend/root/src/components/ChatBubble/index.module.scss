@@ -1,0 +1,31 @@
+.chatBubbleWrapper {
+  padding: 0.25em 0;
+  white-space: pre-wrap;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  &.isSend {
+    justify-content: end;
+    & .chatBubble {
+      background-color: #00000015;
+    }
+  }
+
+  & .chatBubble {
+    max-width: 35%;
+    background-color: #0000ff40;
+    border-radius: 1em;
+    padding: 1em;
+
+    & .message {
+      text-align: start;
+    }
+
+    & .sendAt {
+      padding-top: 0.5em;
+      font-size: small;
+      text-align: end;
+    }
+  }
+}

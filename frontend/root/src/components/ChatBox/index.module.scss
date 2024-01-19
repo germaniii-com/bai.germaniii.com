@@ -18,6 +18,9 @@
     }
     & .conversationBubblesHolder {
       flex-grow: 1;
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: column-reverse;
     }
     & .inputHolder {
       height: 10%;
