@@ -1,5 +1,5 @@
 import style from "./index.module.scss";
-import { BiSun } from "react-icons/bi";
+import { BiLogOut, BiSun } from "react-icons/bi";
 
 const Navbar = () => {
   return (
@@ -9,6 +9,7 @@ const Navbar = () => {
         <div className={style.capitalTitle}>A</div>utomated{" "}
         <div className={style.capitalTitle}>I</div>nteraction{" "}
       </span>
+      <BiLogOut />
       <BiSun />
     </nav>
   );
