@@ -42,9 +42,9 @@ const extraMessages = [
 ];
 
 const llmOptions = [
-  { id: "1", name: "Mistral" },
-  { id: "2", name: "Llama 2" },
-  { id: "3", name: "Dolphin-Phi" },
+  { id: "1", name: "Dolphin Phi" },
+  { id: "2", name: "Phi-2" },
+  { id: "3", name: "Orca Mini" },
 ];
 
 function ChatBox() {
