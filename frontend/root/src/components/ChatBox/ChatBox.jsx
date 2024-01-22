@@ -36,7 +36,7 @@ const messages = [
     id: "5",
     message: "Enter a prompt",
     sender: Sender.System,
-    sendAt: "12/12/12",
+    sendAt: "",
   },
 ];
 
@@ -57,16 +57,23 @@ function ChatBox() {
           <h1>Chat 1</h1>
         </div>
         <div className={styles.conversationBubblesHolder}>
-          {params.conversationId
-            ? messages.map((message) => (
-                <ChatBubble
-                  key={message.id}
-                  message={message.message}
-                  sendAt={message.sendAt}
-                  sender={message.sender}
-                />
-              ))
-            : "Nothing is loaded"}
+          {params.conversationId ? (
+            messages.map((message) => (
+              <ChatBubble
+                key={message.id}
+                message={message.message}
+                sendAt={message.sendAt}
+                sender={message.sender}
+              />
+            ))
+          ) : (
+            <ChatBubble
+              key={"0"}
+              message={"Enter a prompt"}
+              sendAt={""}
+              sender={Sender.System}
+            />
+          )}
         </div>
         <div className={styles.inputHolder}>
           <form onSubmit={(e) => e.preventDefault()}>
