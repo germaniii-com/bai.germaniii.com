@@ -9,6 +9,7 @@
     justify-content: end;
     & .chatBubble {
       background-color: #00000015;
+      border-radius: 1em 1em 0 1em;
     }
   }
 
@@ -29,6 +30,7 @@
     justify-content: start;
     & .chatBubble {
       background-color: #0000ff40;
+      border-radius: 1em 1em 1em 0;
     }
   }
 
