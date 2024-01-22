@@ -3,8 +3,8 @@
   white-space: nowrap;
 
   &:hover {
-    background-color: grey;
-    color: white;
+    background-color: #00000015;
+    color: black;
   }
 
   & .title {
@@ -24,5 +24,14 @@
     padding-top: 0.5em;
     font-size: small;
     text-align: end;
+  }
+}
+
+.selected {
+  background-color: #0000ff80;
+  color: white;
+  &:hover {
+    background-color: grey;
+    color: white;
   }
 }

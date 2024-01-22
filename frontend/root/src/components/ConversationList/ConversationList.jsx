@@ -39,6 +39,7 @@ function ConversationList() {
         {conversations.map((convo) => (
           <div key={convo.id} onClick={() => reroute(`/chat/${convo.id}`)}>
             <ConversationListItem
+              id={convo.id}
               title={convo.title}
               lastMessage={convo.lastMessage}
               sendAt={convo.send_at}
