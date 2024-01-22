@@ -41,9 +41,16 @@ const extraMessages = [
   },
 ];
 
+const llmOptions = [
+  { id: "1", name: "Mistral" },
+  { id: "2", name: "Llama 2" },
+  { id: "3", name: "Dolphin-Phi" },
+];
+
 function ChatBox() {
   const params = useParams();
   const [prompt, setPrompt] = useState("");
+  const [llmOption, setLlmOption] = useState(llmOptions.at(0).id);
   const messages = useMemo(
     () =>
       params.conversationId
@@ -63,6 +70,16 @@ function ChatBox() {
       <div className={styles.conversationWrapper}>
         <div className={styles.titleHolder}>
           <h1>Chat 1</h1>
+          <select
+            value={llmOption}
+            onChange={(e) => setLlmOption(e.target.value.id)}
+          >
+            {llmOptions.map((llm) => (
+              <option key={llm.id} value={llm.id}>
+                {llm.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={styles.conversationBubblesHolder}>
           {messages.map((message) => (

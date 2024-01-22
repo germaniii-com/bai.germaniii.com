@@ -15,7 +15,28 @@
     & .titleHolder {
       height: 10%;
       min-height: 75px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      h3 {
+        flex-grow: 1;
+      }
+
+      select {
+        margin-left: auto;
+        background-color: white;
+        border: none;
+        border-radius: 0.5em;
+        padding: 1em;
+
+        &:focus,
+        &:hover {
+          background-color: #0878e7;
+          color: white;
+        }
+      }
     }
+
     & .conversationBubblesHolder {
       flex-grow: 1;
       overflow-y: scroll;
