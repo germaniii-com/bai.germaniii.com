@@ -68,11 +68,13 @@
 
         & .sendDisabled {
           color: grey;
+          cursor: initial;
         }
         svg {
           height: 35px;
           width: 35px;
           color: #0878e7;
+          cursor: pointer;
         }
       }
     }
