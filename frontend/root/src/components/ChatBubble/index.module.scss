@@ -5,16 +5,35 @@
   display: flex;
   flex-direction: row;
 
-  &.isSend {
+  &.userSent {
     justify-content: end;
     & .chatBubble {
       background-color: #00000015;
     }
   }
 
+  &.systemSent {
+    justify-content: center;
+    & .chatBubble {
+      background-color: grey;
+      color: white;
+      & .sendAt {
+        padding-top: 0.5em;
+        font-size: x-small;
+        text-align: center;
+      }
+    }
+  }
+
+  &.machineSent {
+    justify-content: start;
+    & .chatBubble {
+      background-color: #0000ff40;
+    }
+  }
+
   & .chatBubble {
     max-width: 35%;
-    background-color: #0000ff40;
     border-radius: 1em;
     padding: 1em;
 

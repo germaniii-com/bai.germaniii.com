@@ -1,41 +1,41 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import styles from "./index.module.scss";
 import { BiSend } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import ChatBubble from "../ChatBubble/ChatBubble";
+import { Sender } from "../../constants/ChatBoxConstants";
 
 const messages = [
   {
     id: "1",
     message: "Hello, what can I help you with today?",
-    is_send: true,
+    sender: Sender.Machine,
     sendAt: "12/12/12",
   },
   {
     id: "2",
     message: "Hi there! I'm here to assist you. How can I be of service?",
-    is_send: false,
+    sender: Sender.User,
     sendAt: "12/12/12",
   },
   {
     id: "3",
     message:
       "Greetings! Let me know if there's anything specific you'd like assistance with.",
-    is_send: true,
+    sender: Sender.Machine,
     sendAt: "12/12/12",
   },
   {
     id: "4",
     message:
       "Hey! Need help or information on a particular topic? Feel free to ask!",
-    is_send: false,
+    sender: Sender.User,
     sendAt: "12/12/12",
   },
   {
     id: "5",
-    message:
-      "Good day! How may I assist you today? Don't hesitate to let me know!",
-    is_send: true,
+    message: "Enter a prompt",
+    sender: Sender.System,
     sendAt: "12/12/12",
   },
 ];
@@ -43,11 +43,10 @@ const messages = [
 function ChatBox() {
   const params = useParams();
   const [prompt, setPrompt] = useState("");
-  const [sendDisabled, setSendDisabled] = useState(true);
+  const sendDisabled = useMemo(() => !prompt.length, [prompt]);
 
   const handleOnPromptChange = (e) => {
     const newValue = e.target.value;
-    setSendDisabled(newValue.length <= 0);
     setPrompt(newValue);
   };
 
@@ -61,9 +60,10 @@ function ChatBox() {
           {params.conversationId
             ? messages.map((message) => (
                 <ChatBubble
+                  key={message.id}
                   message={message.message}
                   sendAt={message.sendAt}
-                  isSend={message.is_send}
+                  sender={message.sender}
                 />
               ))
             : "Nothing is loaded"}
@@ -78,7 +78,7 @@ function ChatBox() {
               maxLength={1024}
               placeholder="Enter prompt..."
             />
-            <BiSend aria-disabled={sendDisabled} />
+            <BiSend className={`${sendDisabled ? styles.sendDisabled : ""}`} />
           </form>
         </div>
       </div>

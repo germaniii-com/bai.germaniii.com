@@ -44,10 +44,14 @@
           border: 0.025em solid grey;
           border-radius: 0.5em;
         }
+
+        & .sendDisabled {
+          color: grey;
+        }
         svg {
           height: 35px;
           width: 35px;
-          color: grey;
+          color: #0878e7;
         }
       }
     }
