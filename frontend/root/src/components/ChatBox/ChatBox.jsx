@@ -5,7 +5,14 @@ import { useParams } from "react-router-dom";
 import ChatBubble from "../ChatBubble/ChatBubble";
 import { Sender } from "../../constants/ChatBoxConstants";
 
-const messages = [
+const initialPrompt = {
+  id: "0",
+  message: "Enter a prompt",
+  sender: Sender.System,
+  sendAt: "",
+};
+
+const extraMessages = [
   {
     id: "1",
     message: "Hello, what can I help you with today?",
@@ -32,17 +39,18 @@ const messages = [
     sender: Sender.User,
     sendAt: "12/12/12",
   },
-  {
-    id: "5",
-    message: "Enter a prompt",
-    sender: Sender.System,
-    sendAt: "",
-  },
 ];
 
 function ChatBox() {
   const params = useParams();
   const [prompt, setPrompt] = useState("");
+  const messages = useMemo(
+    () =>
+      params.conversationId
+        ? [...extraMessages, initialPrompt]
+        : [initialPrompt],
+    [params]
+  );
   const sendDisabled = useMemo(() => !prompt.length, [prompt]);
 
   const handleOnPromptChange = (e) => {
@@ -57,23 +65,14 @@ function ChatBox() {
           <h1>Chat 1</h1>
         </div>
         <div className={styles.conversationBubblesHolder}>
-          {params.conversationId ? (
-            messages.map((message) => (
-              <ChatBubble
-                key={message.id}
-                message={message.message}
-                sendAt={message.sendAt}
-                sender={message.sender}
-              />
-            ))
-          ) : (
+          {messages.map((message) => (
             <ChatBubble
-              key={"0"}
-              message={"Enter a prompt"}
-              sendAt={""}
-              sender={Sender.System}
+              key={message.id}
+              message={message.message}
+              sendAt={message.sendAt}
+              sender={message.sender}
             />
-          )}
+          ))}
         </div>
         <div className={styles.inputHolder}>
           <form onSubmit={(e) => e.preventDefault()}>
