@@ -18,8 +18,11 @@ Route::get('/health', function () {
     return response()->json([], 200);
 });
 
-Route::post('/access', [AuthController::class, 'access']);
 Route::post('/request', [AuthController::class, 'request']);
+
+Route::middleware('web')->group(function () {
+    Route::post('/access', [AuthController::class, 'access']);
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
