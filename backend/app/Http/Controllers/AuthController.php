@@ -6,6 +6,7 @@ use App\Http\Requests\AccessRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DemoRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -41,6 +42,18 @@ class AuthController extends Controller
 
         // TODO: Add code to call email sending of generated token
         return response()->json(['email' => $new_user->email, 'access_code' => $password], 200, []);
+    }
+
+    public function logout(Request $request)
+    {
+        if (auth()->guard()->guest())
+            return response()->json(['message' => 'Unauthenticated'], 400, []);
+
+        auth()->guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerate();
+
+        return response()->json(['message' => 'Unauthenticated'], 400, []);
     }
 
     public function user()

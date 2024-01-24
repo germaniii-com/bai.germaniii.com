@@ -22,11 +22,11 @@ Route::post('/auth/request', [AuthController::class, 'request']);
 
 Route::middleware('web')->group(function () {
     Route::post('/auth/access', [AuthController::class, 'access']);
+    Route::get('/auth/logout', [AuthController::class, 'logout']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/user', [AuthController::class, 'user']);
-    Route::get('/auth/logout', [AuthController::class, 'logout']);
 
     Route::get('/conversations', []);
     Route::delete('/conversations/{conversationId}', [])->where('conversationId', '[0-9a-zA-Z]{26}');
