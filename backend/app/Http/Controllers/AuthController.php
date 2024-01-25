@@ -25,7 +25,7 @@ class AuthController extends Controller
     public function request(DemoRequest $request)
     {
         $email = Str::lower($request->email);
-        $user = User::where('email', $email)->first();
+        $user = User::withTrashed()->where('email', $email)->first();
 
         if ($user != null)
             return response()->json(['message' => 'Email already registered'], 400, []);
