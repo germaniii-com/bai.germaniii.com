@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ConversationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,7 +29,7 @@ Route::middleware('web')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/user', [AuthController::class, 'user']);
 
-    Route::get('/conversations', []);
+    Route::get('/conversations', [ConversationController::class, 'index']);
     Route::delete('/conversations/{conversationId}', [])->where('conversationId', '[0-9a-zA-Z]{26}');
 
     Route::get('/conversations/{conversationId}/messages', [])->where('conversationId', '[0-9a-zA-Z]{26}');
