@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('conversations', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('email')->unique();
-            $table->string('password')->nullable();
+            $table->string('title');
+            $table->string('last_message');
+            $table->ulid('user_id');
+            $table->foreign('user_id', 'conversations_users_id_fk')->references('id')->on('users');
             $table->timestamps();
         });
     }
