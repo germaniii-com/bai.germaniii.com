@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Model
 {
@@ -35,4 +36,9 @@ class User extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function conversations(): BelongsTo
+    {
+        return $this->belongsTo(Conversation::class, 'conversation_id', 'id');
+    }
 }
