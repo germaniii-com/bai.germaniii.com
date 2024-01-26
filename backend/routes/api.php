@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/conversations', [ConversationController::class, 'store']);
     Route::delete('/conversations/{conversationId}', [])->where('conversationId', '[0-9a-zA-Z]{26}');
 
-    Route::get('/conversations/{conversationId}/messages', [])->where('conversationId', '[0-9a-zA-Z]{26}');
+    Route::get('/conversations/{conversationId}/messages', [MessageController::class, 'index'])->where('conversationId', '[0-9a-zA-Z]{26}');
     Route::post('/conversations/{conversationId}/messages', [])->where('conversationId', '[0-9a-zA-Z]{26}');
 });
