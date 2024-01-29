@@ -40,4 +40,20 @@ class ConversationController extends Controller
 
         return response()->json($conversation, 200, []);
     }
+
+    public function delete($conversationId)
+    {
+        $user = auth()->user();
+
+        DB::transaction(function () use ($user, $conversationId) {
+            $conversation_to_delete = Conversation::where('user_id', $user->id)
+                ->where('id', $conversationId)
+                ->firstOrFail();
+
+            $conversation_to_delete->messages()->delete();
+            $conversation_to_delete->delete();
+        });
+
+        return response(null, 204);
+    }
 }

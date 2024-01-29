@@ -18,6 +18,7 @@ return new class extends Migration
             $table->ulid('user_id');
             $table->foreign('user_id', 'conversations_users_id_fk')->references('id')->on('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -18,7 +18,11 @@ return new class extends Migration
             $table->string('model')->nullable();
             $table->ulid('conversation_id');
             $table->timestamps();
-            $table->foreign('conversation_id', 'messages_conversations_id_fk')->references('id')->on('conversations');
+            $table->softDeletes();
+            $table->foreign('conversation_id', 'messages_conversations_id_fk')
+                ->references('id')
+                ->on('conversations')
+                ->onDelete('cascade');
         });
     }
 
