@@ -35,5 +35,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/conversations/{conversationId}', [])->where('conversationId', '[0-9a-zA-Z]{26}');
 
     Route::get('/conversations/{conversationId}/messages', [MessageController::class, 'index'])->where('conversationId', '[0-9a-zA-Z]{26}');
-    Route::post('/conversations/{conversationId}/messages', [])->where('conversationId', '[0-9a-zA-Z]{26}');
+    Route::post('/conversations/{conversationId}/messages', [MessageController::class, 'store'])->where('conversationId', '[0-9a-zA-Z]{26}');
 });
