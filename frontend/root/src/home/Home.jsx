@@ -3,28 +3,60 @@ import style from "./index.module.scss";
 import MainLayout from "../components/MainLayout";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { isValidEmail, isValidAccessCode } from "../utils/stringUtils";
+import axiosInstance, { axiosInstanceRoot } from "../utils/axiosInstance";
 
 function Home() {
   const [accessRequest, setAccessRequest] = useState(0); // 0 - default, 1 - sign up, 2 - login
-  const [formData, setFormData] = useState({ email: "", acces_code: "" });
+  const [formData, setFormData] = useState({ email: "", access_code: "" });
   const [formError, setFormError] = useState();
   const reroute = useNavigate();
   const submitForm = () => {
-    if (accessRequest == 1) {
-      if (!formData.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/))
-        setFormError("Invalid Email");
-      else alert("valid email");
-    } else {
-      if (formData.length < 10) setFormError("Invalid Access Code");
-      else reroute("/chat");
+    if (!isValidEmail(formData.email)) {
+      setFormError("Invalid Email");
+      return;
+    }
+
+    switch (accessRequest) {
+      case 1:
+        axiosInstance
+          .post("/auth/request", { email: formData.email })
+          .then((res) =>
+            alert(
+              `Please check your email for the access code. For the mean time, here are the creds\n
+                ${JSON.stringify(res.data)}`
+            )
+          )
+          .catch((error) => setFormError(error.message));
+        break;
+      case 2:
+        if (!isValidAccessCode(formData.access_code)) {
+          setFormError("Invalid Access Code");
+          return;
+        }
+        axiosInstanceRoot
+          .get("/sanctum/csrf-cookie")
+          .then(() =>
+            axiosInstance
+              .post("/auth/access", formData)
+              .then(() => reroute("/chat"))
+              .catch(() => setFormError("Unauthenticated"))
+          )
+          .catch(() =>
+            setFormError(
+              "There was an error with the server. Please try again later."
+            )
+          );
+
+        break;
     }
   };
   const onInputChange = (newValue) => {
-    setFormError(undefined);
-    setFormData(newValue);
+    setFormError("");
+    setFormData((prev) => ({ ...prev, ...newValue }));
   };
   const onBackClicked = () => {
-    setFormData({ email: "", acces_code: "" });
+    setFormData({ email: "", access_code: "" });
     setAccessRequest(0);
   };
 
@@ -57,16 +89,20 @@ function Home() {
                   id="email"
                   placeholder={"Email"}
                   value={formData.email}
-                  onChange={(e) => onInputChange(e.target.value)}
+                  onChange={(e) =>
+                    onInputChange({ [e.target.id]: e.target.value })
+                  }
                   required
                 />
                 {accessRequest != 1 && (
                   <input
                     type="text"
-                    id="fieldData"
+                    id="access_code"
                     placeholder={"Access Code"}
-                    value={formData.acces_code}
-                    onChange={(e) => onInputChange(e.target.value)}
+                    value={formData.access_code}
+                    onChange={(e) =>
+                      onInputChange({ [e.target.id]: e.target.value })
+                    }
                     required
                   />
                 )}
