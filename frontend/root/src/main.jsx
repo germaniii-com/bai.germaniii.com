@@ -3,7 +3,12 @@ import ReactDOM from "react-dom/client";
 import Home from "./home/Home";
 import Chat from "./chat/Chat";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
+import axiosInstance from "./utils/axiosInstance";
 
 const router = createBrowserRouter([
   {
@@ -13,13 +18,15 @@ const router = createBrowserRouter([
   {
     path: "/chat/:conversationId?",
     loader: async () => {
-      // const user = await fake.getUser();
-      // if (!user) {
-      //   throw redirect("/login");
-      // }
-      // // otherwise continue
-      // const stats = await fake.getDashboardStats();
-      // return { user, stats };
+      const user = await axiosInstance
+        .get("/auth/user")
+        .then(() => true)
+        .catch(() => false);
+
+      if (!user) {
+        throw redirect("/");
+      }
+
       return null;
     },
     element: <Chat />,
