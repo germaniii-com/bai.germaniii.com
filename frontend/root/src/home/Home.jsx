@@ -1,22 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import style from "./index.module.scss";
 import MainLayout from "../components/MainLayout";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const [serverStatus, setServerStatus] = useState(false);
   const [accessRequest, setAccessRequest] = useState(0); // 0 - default, 1 - sign up, 2 - login
   const [formData, setFormData] = useState({ email: "", acces_code: "" });
   const [formError, setFormError] = useState();
   const reroute = useNavigate();
-  const fetchServerHealth = useCallback(
-    () =>
-      fetch("http://localhost:8006/api/health")
-        .then(() => setServerStatus(true))
-        .catch(() => setServerStatus(false)),
-    [setServerStatus]
-  );
   const submitForm = () => {
     if (accessRequest == 1) {
       if (!formData.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/))
@@ -35,8 +27,6 @@ function Home() {
     setFormData({ email: "", acces_code: "" });
     setAccessRequest(0);
   };
-
-  useEffect(() => fetchServerHealth, [setServerStatus]);
 
   return (
     <MainLayout>
