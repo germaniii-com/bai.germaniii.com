@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function Home() {
   const [serverStatus, setServerStatus] = useState(false);
   const [accessRequest, setAccessRequest] = useState(0); // 0 - default, 1 - sign up, 2 - login
-  const [formData, setFormData] = useState("");
+  const [formData, setFormData] = useState({ email: "", acces_code: "" });
   const [formError, setFormError] = useState();
   const reroute = useNavigate();
   const fetchServerHealth = useCallback(
@@ -30,6 +30,10 @@ function Home() {
   const onInputChange = (newValue) => {
     setFormError(undefined);
     setFormData(newValue);
+  };
+  const onBackClicked = () => {
+    setFormData({ email: "", acces_code: "" });
+    setAccessRequest(0);
   };
 
   useEffect(() => fetchServerHealth, [setServerStatus]);
@@ -60,21 +64,25 @@ function Home() {
                 {!!formError && <p>{formError}</p>}
                 <input
                   type="text"
-                  id="fieldData"
-                  placeholder={accessRequest == 1 ? "Email" : "Access Code"}
-                  value={formData}
+                  id="email"
+                  placeholder={"Email"}
+                  value={formData.email}
                   onChange={(e) => onInputChange(e.target.value)}
                   required
                 />
+                {accessRequest != 1 && (
+                  <input
+                    type="text"
+                    id="fieldData"
+                    placeholder={"Access Code"}
+                    value={formData.acces_code}
+                    onChange={(e) => onInputChange(e.target.value)}
+                    required
+                  />
+                )}
               </form>
               <div className={style.buttonsHolder}>
-                <div
-                  className={style.backButtonHolder}
-                  onClick={() => {
-                    setFormData("");
-                    setAccessRequest(0);
-                  }}
-                >
+                <div className={style.backButtonHolder} onClick={onBackClicked}>
                   <BiLeftArrowAlt /> Back
                 </div>
                 <div className={style.sendButtonHolder} onClick={submitForm}>
