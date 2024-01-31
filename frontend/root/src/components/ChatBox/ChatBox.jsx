@@ -3,12 +3,12 @@ import styles from "./index.module.scss";
 import { BiSend } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import ChatBubble from "../ChatBubble/ChatBubble";
-import { Sender } from "../../constants/ChatBoxConstants";
+import { Role } from "../../constants/ChatBoxConstants";
 
 const initialPrompt = {
   id: "0",
   message: "Enter a prompt",
-  sender: Sender.System,
+  role: Role.System,
   sendAt: "",
 };
 
@@ -16,27 +16,27 @@ const extraMessages = [
   {
     id: "1",
     message: "Hello, what can I help you with today?",
-    sender: Sender.Machine,
+    role: Role.Assistant,
     sendAt: "12/12/12",
   },
   {
     id: "2",
     message: "Hi there! I'm here to assist you. How can I be of service?",
-    sender: Sender.User,
+    role: Role.User,
     sendAt: "12/12/12",
   },
   {
     id: "3",
     message:
       "Greetings! Let me know if there's anything specific you'd like assistance with.",
-    sender: Sender.Machine,
+    role: Role.Assistant,
     sendAt: "12/12/12",
   },
   {
     id: "4",
     message:
       "Hey! Need help or information on a particular topic? Feel free to ask!",
-    sender: Sender.User,
+    role: Role.User,
     sendAt: "12/12/12",
   },
 ];
@@ -87,7 +87,7 @@ function ChatBox() {
               key={message.id}
               message={message.message}
               sendAt={message.sendAt}
-              sender={message.sender}
+              role={message.role}
             />
           ))}
         </div>

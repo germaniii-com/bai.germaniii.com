@@ -1,5 +1,5 @@
-export const Sender = {
+export const Role = {
   System: "system",
   User: "user",
-  Machine: "machine",
+  Assistant: "assistant",
 };

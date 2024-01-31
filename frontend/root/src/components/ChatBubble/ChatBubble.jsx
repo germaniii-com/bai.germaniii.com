@@ -1,13 +1,13 @@
-import { Sender } from "../../constants/ChatBoxConstants";
+import { Role } from "../../constants/ChatBoxConstants";
 import styles from "./index.module.scss";
 
-function ChatBubble({ message, sendAt, sender }) {
+function ChatBubble({ message, sendAt, role }) {
   return (
     <div
       className={`${styles.chatBubbleWrapper} ${
-        sender === Sender.User
+        role === Role.User
           ? styles.userSent
-          : sender === Sender.System
+          : role === Role.System
           ? styles.systemSent
           : styles.machineSent
       }`}
