@@ -33,8 +33,13 @@ function ChatBox({ addConversation, setConversations }) {
 
   const handleOnSend = () => {
     if (!prompt.length) return;
-    if (!params.conversationId) addConversation(prompt);
     setPrompt("");
+
+    if (!params.conversationId) {
+      addConversation({ message: prompt, model: llmOption });
+      return;
+    }
+
     axiosInstance
       .post(`/conversations/${params.conversationId}/messages`, {
         message: prompt,
@@ -67,8 +72,8 @@ function ChatBox({ addConversation, setConversations }) {
   };
 
   useEffect(() => {
+    setExtraMessages([initialPrompt]);
     if (!params.conversationId) return;
-    setExtraMessages([]);
     axiosInstance
       .get(`/conversations/${params.conversationId}/messages`)
       .then((res) => {

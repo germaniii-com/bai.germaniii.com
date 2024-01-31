@@ -9,18 +9,25 @@ import { useNavigate } from "react-router-dom";
 function Chat() {
   const reroute = useNavigate();
   const [conversations, setConversations] = useState();
-  const addConversation = (message) => {
+  const addConversation = ({ message, model }) => {
     axiosInstance
       .post("/conversations", { message })
       .then((res) => {
         const conversation = res.data;
+        axiosInstance
+          .post(`/conversations/${conversation.id}/messages`, {
+            message,
+            model,
+          })
+          .then(() => {})
+          .catch(() => {});
         setConversations((prev) => [
           ...prev,
           {
             id: conversation.id,
             title: conversation.title,
             lastMessage: conversation.last_message,
-            send_at: conversation.created_at,
+            send_at: conversation.updated_at,
           },
         ]);
         reroute(`/chat/${conversation.id}`);
@@ -39,7 +46,7 @@ function Chat() {
             id: conversation.id,
             title: conversation.title,
             lastMessage: conversation.last_message,
-            send_at: conversation.created_at,
+            send_at: conversation.updated_at,
           }))
         );
       })

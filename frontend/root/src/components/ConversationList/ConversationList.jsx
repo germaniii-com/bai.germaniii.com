@@ -7,7 +7,8 @@ import { useMemo } from "react";
 function ConversationList({ conversations }) {
   const reroute = useNavigate();
   const conversationsSorted = useMemo(
-    () => conversations.sort((a, b) => a.send_at <= b.send_at),
+    () =>
+      conversations ? conversations.sort((a, b) => a.send_at <= b.send_at) : [],
     [conversations]
   );
 
