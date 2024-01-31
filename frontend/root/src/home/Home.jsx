@@ -57,6 +57,7 @@ function Home() {
   };
   const onBackClicked = () => {
     setFormData({ email: "", access_code: "" });
+    setFormError("");
     setAccessRequest(0);
   };
 
