@@ -89,6 +89,11 @@ function ChatBox({ addConversation, setConversations }) {
       .catch(() => {});
   }, [params.conversationId, setExtraMessages]);
 
+  const messagesSorted = useMemo(
+    () => (messages ? messages.sort((a, b) => a.sendAt <= b.sendAt) : []),
+    [messages]
+  );
+
   return (
     <div className={styles.conversationHolder}>
       <div className={styles.conversationWrapper}>
@@ -106,14 +111,15 @@ function ChatBox({ addConversation, setConversations }) {
           </select>
         </div>
         <div className={styles.conversationBubblesHolder}>
-          {messages.map((message) => (
-            <ChatBubble
-              key={message.id}
-              message={message.message}
-              sendAt={message.sendAt}
-              role={message.role}
-            />
-          ))}
+          {messagesSorted &&
+            messagesSorted.map((message) => (
+              <ChatBubble
+                key={message.id}
+                message={message.message}
+                sendAt={message.sendAt}
+                role={message.role}
+              />
+            ))}
         </div>
         <div className={styles.inputHolder}>
           <form onSubmit={(e) => e.preventDefault()}>
