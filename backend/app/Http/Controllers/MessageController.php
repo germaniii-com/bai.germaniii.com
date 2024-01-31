@@ -35,10 +35,9 @@ class MessageController extends Controller
                 $new_message->sender = SenderTypes::USER;
                 $new_message->message = $message;
                 $new_message->model = $model;
+                $new_message->conversation_id = $conversationId;
 
                 // TODO: Add a line to call ollama api
-
-                $new_message->conversations()->associate($conversationId);
 
                 $new_message->save();
                 return $new_message;

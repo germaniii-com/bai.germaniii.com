@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./index.module.scss";
 import { BiSend } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import ChatBubble from "../ChatBubble/ChatBubble";
 import { Role } from "../../constants/ChatBoxConstants";
+import axiosInstance from "../../utils/axiosInstance";
 
 const initialPrompt = {
   id: "0",
@@ -12,58 +13,76 @@ const initialPrompt = {
   sendAt: "",
 };
 
-const extraMessages = [
-  {
-    id: "1",
-    message: "Hello, what can I help you with today?",
-    role: Role.Assistant,
-    sendAt: "12/12/12",
-  },
-  {
-    id: "2",
-    message: "Hi there! I'm here to assist you. How can I be of service?",
-    role: Role.User,
-    sendAt: "12/12/12",
-  },
-  {
-    id: "3",
-    message:
-      "Greetings! Let me know if there's anything specific you'd like assistance with.",
-    role: Role.Assistant,
-    sendAt: "12/12/12",
-  },
-  {
-    id: "4",
-    message:
-      "Hey! Need help or information on a particular topic? Feel free to ask!",
-    role: Role.User,
-    sendAt: "12/12/12",
-  },
-];
-
 const llmOptions = [
   { id: "1", name: "Dolphin Phi" },
   { id: "2", name: "Phi-2" },
   { id: "3", name: "Orca Mini" },
 ];
 
-function ChatBox() {
+function ChatBox({ addConversation, setConversations }) {
   const params = useParams();
   const [prompt, setPrompt] = useState("");
   const [llmOption, setLlmOption] = useState(llmOptions.at(0).id);
-  const messages = useMemo(
-    () =>
-      params.conversationId
-        ? [...extraMessages, initialPrompt]
-        : [initialPrompt],
-    [params]
-  );
+  const [messages, setExtraMessages] = useState([initialPrompt]);
   const sendDisabled = useMemo(() => !prompt.length, [prompt]);
 
   const handleOnPromptChange = (e) => {
     const newValue = e.target.value;
     setPrompt(newValue);
   };
+
+  const handleOnSend = () => {
+    if (!prompt.length) return;
+    if (!params.conversationId) addConversation(prompt);
+    setPrompt("");
+    axiosInstance
+      .post(`/conversations/${params.conversationId}/messages`, {
+        message: prompt,
+        model: llmOption,
+      })
+      .then((res) => {
+        const message = res.data;
+        setExtraMessages((prev) => [
+          ...prev,
+          {
+            id: message.id,
+            message: message.message,
+            role: message.sender,
+            sendAt: message.created_at,
+          },
+        ]);
+        setConversations((prev) =>
+          prev.map((conversation) =>
+            conversation.id !== message.conversation_id
+              ? conversation
+              : {
+                  ...conversation,
+                  lastMessage: message.message,
+                  send_at: message.created_at,
+                }
+          )
+        );
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    if (!params.conversationId) return;
+    setExtraMessages([]);
+    axiosInstance
+      .get(`/conversations/${params.conversationId}/messages`)
+      .then((res) => {
+        setExtraMessages(
+          res.data.map((message) => ({
+            id: message.id,
+            message: message.message,
+            role: message.sender,
+            sendAt: message.created_at,
+          }))
+        );
+      })
+      .catch(() => {});
+  }, [params.conversationId, setExtraMessages]);
 
   return (
     <div className={styles.conversationHolder}>
@@ -101,7 +120,10 @@ function ChatBox() {
               maxLength={1024}
               placeholder="Enter prompt..."
             />
-            <BiSend className={`${sendDisabled ? styles.sendDisabled : ""}`} />
+            <BiSend
+              className={`${sendDisabled ? styles.sendDisabled : ""}`}
+              onClick={handleOnSend}
+            />
           </form>
         </div>
       </div>

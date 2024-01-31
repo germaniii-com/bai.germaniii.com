@@ -22,9 +22,6 @@ class Message extends Model
         'message',
         'sender',
         'model',
-    ];
-
-    protected $guarded = [
         'conversation_id',
     ];
 
