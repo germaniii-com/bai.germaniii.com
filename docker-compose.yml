@@ -37,6 +37,16 @@ services:
       - MYSQL_ROOT_PASSWORD=bai2023
     volumes:
       - baidbdata:/var/lib/mysql
+  bai_ollama:
+    container_name: bai_ollama
+    image: ollama/ollama
+    restart: unless-stopped
+    command: "serve"
+    ports:
+      - "8008:11434"
+    volumes:
+      - bai-ollama-volume:/root/.ollama
 
 volumes:
   baidbdata:
+  bai-ollama-volume:
