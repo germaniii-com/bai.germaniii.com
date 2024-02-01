@@ -14,7 +14,7 @@ const initialPrompt = {
 };
 
 const llmOptions = [
-  { id: "1", name: "Dolphin Phi" },
+  { id: "1", name: "Llama 2" },
   { id: "2", name: "Phi-2" },
   { id: "3", name: "Orca Mini" },
 ];
@@ -99,10 +99,7 @@ function ChatBox({ addConversation, setConversations }) {
       <div className={styles.conversationWrapper}>
         <div className={styles.titleHolder}>
           <h1>Chat 1</h1>
-          <select
-            value={llmOption}
-            onChange={(e) => setLlmOption(e.target.value.id)}
-          >
+          <select value={llmOption} onChange={(_) => setLlmOption(1)}>
             {llmOptions.map((llm) => (
               <option key={llm.id} value={llm.id}>
                 {llm.name}
