@@ -72,7 +72,10 @@ function ChatBox({ addConversation, setConversations }) {
         );
         setIsSending(false);
       })
-      .catch(() => {});
+      .catch(() => {
+        setIsSending(false);
+        alert("An error occured. Please try again.");
+      });
   };
 
   useEffect(() => {
