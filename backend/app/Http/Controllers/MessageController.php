@@ -51,9 +51,30 @@ class MessageController extends Controller
                 $conversation->last_message = $message;
                 $new_message->save();
 
-                $ollama_response = $this->ollama->prompt($message, $model);
+
+                $messages = Message::where('conversation_id', $conversationId)
+                    ->orderBy('created_at', 'desc')
+                    ->offset(1)
+                    ->take(10)
+                    ->get();
+                $messages->reverse();
+
+                $prompts = [];
+                foreach ($messages as $message) {
+                    $prompts[] = [
+                        'content' => $message['message'],
+                        'role' => $message['sender'],
+                    ];
+                }
+
+                $prompts[] = [
+                    'content' => $new_message->message,
+                    'role' => SenderTypes::USER,
+                ];
+
+                $ollama_response = $this->ollama->chat($prompts, $model);
                 $ollama_message = new Message();
-                $ollama_message->message = $ollama_response['response'] ??  '';
+                $ollama_message->message = $ollama_response['message']['content'] ??  '';
                 $ollama_message->model = $model;
                 $ollama_message->sender = SenderTypes::MACHINE;
                 $ollama_message->conversation_id = $conversationId;

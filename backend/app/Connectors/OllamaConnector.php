@@ -22,4 +22,21 @@ class OllamaConnector
 
         return $data;
     }
+
+    public function chat(array $messages, string $model)
+    {
+        $body = [
+            'messages' => $messages,
+            'model' => $model,
+            'stream' => false,
+        ];
+
+        set_time_limit(0);
+        $ollama_response = Http::timeout(180)
+            ->post('http://bai_ollama:11434/api/chat', $body);
+
+        $data = $ollama_response->json();
+
+        return $data;
+    }
 }
