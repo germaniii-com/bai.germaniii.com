@@ -49,20 +49,19 @@ class MessageController extends Controller
                 $new_message->model = $model;
                 $new_message->conversation_id = $conversationId;
                 $conversation->last_message = $message;
+                $new_message->save();
 
                 $ollama_response = $this->ollama->prompt($message, $model);
-
                 $ollama_message = new Message();
                 $ollama_message->message = $ollama_response['response'] ??  '';
                 $ollama_message->model = $model;
                 $ollama_message->sender = SenderTypes::MACHINE;
                 $ollama_message->conversation_id = $conversationId;
-
-                $new_message->save();
                 $ollama_message->save();
+
                 $conversation->save();
 
-                return [$new_message, $ollama_message];
+                return [$ollama_message, $new_message];
             }
         );
 

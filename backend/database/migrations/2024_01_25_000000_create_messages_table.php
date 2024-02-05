@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->ulid('id');
-            $table->string('message');
+            $table->longText('message');
             $table->string('sender');
             $table->string('model')->nullable();
             $table->ulid('conversation_id');
