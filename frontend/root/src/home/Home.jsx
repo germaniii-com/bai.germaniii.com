@@ -91,7 +91,7 @@ function Home() {
                   placeholder={"Email"}
                   value={formData.email}
                   onChange={(e) =>
-                    onInputChange({ [e.target.id]: e.target.value })
+                    onInputChange({ [e.target.id]: e.target.value.trim() })
                   }
                   required
                 />
@@ -102,7 +102,7 @@ function Home() {
                     placeholder={"Access Code"}
                     value={formData.access_code}
                     onChange={(e) =>
-                      onInputChange({ [e.target.id]: e.target.value })
+                      onInputChange({ [e.target.id]: e.target.value.trim() })
                     }
                     required
                   />
