@@ -8,5 +8,5 @@ class SenderTypes
 {
     public const USER = 'user';
     public const SYSTEM = 'system';
-    public const MACHINE = 'machine';
+    public const MACHINE = 'assistant';
 }

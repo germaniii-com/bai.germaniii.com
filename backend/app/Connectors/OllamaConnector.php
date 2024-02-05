@@ -9,15 +9,16 @@ class OllamaConnector
     public function prompt(string $message, string $model)
     {
         $body = [
-            'message' => $message,
+            'prompt' => $message,
             'model' => $model,
             'stream' => false,
         ];
 
-        $response = Http::post('bai_ollama', $body);
-        $response_json = $response->json();
+        set_time_limit(0);
+        $ollama_response = Http::timeout(180)
+            ->post('http://bai_ollama:11434/api/generate', $body);
 
-        $data = $response_json['response'];
+        $data = $ollama_response->json();
 
         return $data;
     }
