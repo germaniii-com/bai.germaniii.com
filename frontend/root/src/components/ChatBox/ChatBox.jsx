@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import ChatBubble from "../ChatBubble/ChatBubble";
 import { Role } from "../../constants/ChatBoxConstants";
 import axiosInstance from "../../utils/axiosInstance";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const initialPrompt = {
   id: "0",
@@ -24,6 +25,7 @@ function ChatBox({ addConversation, setConversations }) {
   const [prompt, setPrompt] = useState("");
   const [llmOption, setLlmOption] = useState(llmOptions.at(0).id);
   const [messages, setExtraMessages] = useState([initialPrompt]);
+  const [isSending, setIsSending] = useState(false);
   const sendDisabled = useMemo(() => !prompt.length, [prompt]);
 
   const handleOnPromptChange = (e) => {
@@ -32,41 +34,43 @@ function ChatBox({ addConversation, setConversations }) {
   };
 
   const handleOnSend = () => {
-    if (!prompt.length) return;
+    if (sendDisabled || isSending) return;
     setPrompt("");
+    setIsSending(true);
 
     if (!params.conversationId) {
-      addConversation({ message: prompt, model: llmOption });
+      addConversation({ message: prompt, model: "llama2" });
       return;
     }
 
     axiosInstance
       .post(`/conversations/${params.conversationId}/messages`, {
         message: prompt,
-        model: llmOption,
+        model: "llama2",
       })
       .then((res) => {
-        const message = res.data;
+        const messages = res.data;
         setExtraMessages((prev) => [
-          ...prev,
-          {
+          ...messages.map((message) => ({
             id: message.id,
             message: message.message,
             role: message.sender,
             sendAt: message.created_at,
-          },
+          })),
+          ...prev,
         ]);
         setConversations((prev) =>
           prev.map((conversation) =>
-            conversation.id !== message.conversation_id
+            conversation.id !== messages[0].conversation_id
               ? conversation
               : {
                   ...conversation,
-                  lastMessage: message.message,
-                  send_at: message.created_at,
+                  lastMessage: messages[0].message,
+                  send_at: messages[0].created_at,
                 }
           )
         );
+        setIsSending(false);
       })
       .catch(() => {});
   };
@@ -127,11 +131,13 @@ function ChatBox({ addConversation, setConversations }) {
               rows={5}
               maxLength={1024}
               placeholder="Enter prompt..."
+              disabled={isSending}
             />
-            <BiSend
-              className={`${sendDisabled ? styles.sendDisabled : ""}`}
-              onClick={handleOnSend}
-            />
+            {isSending ? (
+              <AiOutlineLoading3Quarters className={styles.loading} />
+            ) : (
+              <BiSend onClick={handleOnSend} />
+            )}
           </form>
         </div>
       </div>

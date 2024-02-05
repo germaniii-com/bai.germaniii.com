@@ -5,7 +5,7 @@ const init = (path = "") => {
     baseURL: `http://localhost:8006${path}`,
     withCredentials: true,
     withXSRFToken: true,
-    timeout: 30000,
+    timeout: 180000,
   });
 
   instance.interceptors.request.use((config) => {

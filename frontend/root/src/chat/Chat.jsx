@@ -19,18 +19,19 @@ function Chat() {
             message,
             model,
           })
-          .then(() => {})
+          .then(() => {
+            setConversations((prev) => [
+              ...prev,
+              {
+                id: conversation.id,
+                title: conversation.title,
+                lastMessage: conversation.last_message,
+                send_at: conversation.updated_at,
+              },
+            ]);
+            reroute(`/chat/${conversation.id}`);
+          })
           .catch(() => {});
-        setConversations((prev) => [
-          ...prev,
-          {
-            id: conversation.id,
-            title: conversation.title,
-            lastMessage: conversation.last_message,
-            send_at: conversation.updated_at,
-          },
-        ]);
-        reroute(`/chat/${conversation.id}`);
       })
       .catch(() => {});
   };

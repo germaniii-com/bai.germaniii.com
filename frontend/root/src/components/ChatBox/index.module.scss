@@ -40,6 +40,7 @@
     & .conversationBubblesHolder {
       flex-grow: 1;
       overflow-y: scroll;
+      max-height: 100vh;
       display: flex;
       flex-direction: column-reverse;
     }
@@ -54,6 +55,7 @@
         display: flex;
         align-items: center;
         justify-items: center;
+        gap: 1em;
         textarea {
           font: inherit;
           width: calc(100% - 35px);
@@ -78,5 +80,21 @@
         }
       }
     }
+  }
+}
+
+.loading {
+  height: 35px;
+  width: 35px;
+  color: #0878e7;
+  animation: rotate 1s infinite linear;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
