@@ -1,7 +1,10 @@
+import { useMemo } from "react";
 import { Role } from "../../constants/ChatBoxConstants";
 import styles from "./index.module.scss";
+import { getDateFromISO } from "../../utils/dateUtils";
 
 function ChatBubble({ message, sendAt, role }) {
+  const sendAtFormatted = useMemo(() => getDateFromISO(sendAt, true), [sendAt]);
   return (
     <div
       className={`${styles.chatBubbleWrapper} ${
@@ -14,7 +17,7 @@ function ChatBubble({ message, sendAt, role }) {
     >
       <div className={`${styles.chatBubble}`}>
         <div className={styles.message}>{message}</div>
-        <div className={styles.sendAt}>{sendAt}</div>
+        <div className={styles.sendAt}>{sendAtFormatted}</div>
       </div>
     </div>
   );

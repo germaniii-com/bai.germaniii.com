@@ -20,13 +20,20 @@ const llmOptions = [
   { id: "3", name: "Orca Mini" },
 ];
 
-function ChatBox({ addConversation, setConversations }) {
+function ChatBox({ conversations, addConversation, setConversations }) {
   const params = useParams();
   const [prompt, setPrompt] = useState("");
   const [llmOption, setLlmOption] = useState(llmOptions.at(0).id);
   const [messages, setExtraMessages] = useState([initialPrompt]);
   const [isSending, setIsSending] = useState(false);
   const sendDisabled = useMemo(() => !prompt.length, [prompt]);
+  const currentConversation = useMemo(
+    () =>
+      conversations?.find(
+        (conversation) => conversation.id === params.conversationId
+      ) ?? [],
+    [conversations, params.conversationId]
+  );
 
   const handleOnPromptChange = (e) => {
     const newValue = e.target.value;
@@ -79,8 +86,11 @@ function ChatBox({ addConversation, setConversations }) {
   };
 
   useEffect(() => {
-    setExtraMessages([initialPrompt]);
-    if (!params.conversationId) return;
+    if (!params.conversationId) {
+      setExtraMessages([initialPrompt]);
+      return;
+    }
+
     axiosInstance
       .get(`/conversations/${params.conversationId}/messages`)
       .then((res) => {
@@ -105,7 +115,7 @@ function ChatBox({ addConversation, setConversations }) {
     <div className={styles.conversationHolder}>
       <div className={styles.conversationWrapper}>
         <div className={styles.titleHolder}>
-          <h1>Chat 1</h1>
+          <h1>{currentConversation.title ?? ""}</h1>
           <select value={llmOption} onChange={(_) => setLlmOption(1)}>
             {llmOptions.map((llm) => (
               <option key={llm.id} value={llm.id}>

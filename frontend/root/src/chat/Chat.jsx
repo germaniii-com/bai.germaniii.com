@@ -59,6 +59,7 @@ function Chat() {
       <div className={styles.root}>
         <ConversationList conversations={conversations} />
         <ChatBox
+          conversations={conversations}
           addConversation={addConversation}
           setConversations={setConversations}
         />
