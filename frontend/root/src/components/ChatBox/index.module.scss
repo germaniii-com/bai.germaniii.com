@@ -1,6 +1,7 @@
 .conversationHolder {
   flex-grow: 1;
   margin: 1em 1em 1em 0.5em;
+  max-height: 87vh;
   & .conversationWrapper {
     border: 1em;
     border-color: black;
@@ -40,7 +41,7 @@
     & .conversationBubblesHolder {
       flex-grow: 1;
       overflow-y: scroll;
-      max-height: 100vh;
+      max-height: 65vh;
       display: flex;
       flex-direction: column-reverse;
     }
