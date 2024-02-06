@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import style from "./index.module.scss";
 import { BiLogOut, BiSun } from "react-icons/bi";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Navbar = () => {
   const reroute = useNavigate();
   const handleLogout = () => {
-    reroute("/");
+    axiosInstance.get("/auth/logout").finally(() => reroute("/"));
   };
+
   return (
     <nav className={style.navbar}>
       <span>
