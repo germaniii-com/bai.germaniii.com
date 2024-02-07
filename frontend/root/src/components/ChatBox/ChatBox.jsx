@@ -47,6 +47,7 @@ function ChatBox({ conversations, addConversation, setConversations }) {
 
     if (!params.conversationId) {
       addConversation({ message: prompt, model: "llama2" });
+      setIsSending(false);
       return;
     }
 
