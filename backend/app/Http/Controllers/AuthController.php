@@ -63,7 +63,7 @@ class AuthController extends Controller
             $sendgrid_mail->setTemplateId(env('SENDGRID_ACCESS_EMAIL_TEMPLATE_ID'));
             $sendgrid_mail->addDynamicTemplateData("access_code", $password);
             $sendgrid_mail->addDynamicTemplateData("Sender_Name", "German III");
-            $sendgrid_mail->addDynamicTemplateData("login_url", "bai.germaniii.com/?email=" . $email . '&?access_code=' . $password);
+            $sendgrid_mail->addDynamicTemplateData("login_url", "bai.germaniii.com/?email=" . $email . '&access_code=' . $password);
 
             try {
                 $this->sendgrid->send($sendgrid_mail);
