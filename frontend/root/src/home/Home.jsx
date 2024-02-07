@@ -10,6 +10,7 @@ function Home() {
   const [accessRequest, setAccessRequest] = useState(0); // 0 - default, 1 - sign up, 2 - login
   const [formData, setFormData] = useState({ email: "", access_code: "" });
   const [formError, setFormError] = useState();
+  const [requestDisabled, setRequestDisabled] = useState(false);
   const reroute = useNavigate();
   const submitForm = () => {
     if (!isValidEmail(formData.email)) {
@@ -19,14 +20,15 @@ function Home() {
 
     switch (accessRequest) {
       case 1:
+        if (requestDisabled) return;
         axiosInstance
           .post("/auth/request", { email: formData.email })
-          .then((res) =>
+          .then(() => {
+            setRequestDisabled(true);
             alert(
-              `Please check your email for the access code. For the mean time, here are the creds\n
-                ${JSON.stringify(res.data)}`
-            )
-          )
+              `Please check your email for the access code. If you have not received it, please check your spam folder as well. Thank you!`
+            );
+          })
           .catch((error) => setFormError(error.message));
         break;
       case 2:

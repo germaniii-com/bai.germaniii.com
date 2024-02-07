@@ -15,6 +15,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->string('email')->unique();
             $table->string('password')->nullable();
+            $table->dateTime('expire_at')->nullable();
             $table->timestamps();
             $table->softDeletesDatetime();
         });

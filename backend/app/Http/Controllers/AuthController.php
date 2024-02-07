@@ -6,6 +6,7 @@ use App\Http\Requests\AccessRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DemoRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,14 @@ class AuthController extends Controller
         if (!auth()->guard()->attempt($credentials))
             return response()->json(['message' => 'Unauthenticated'], 401);
 
+        $user = User::where('email', $request->email)
+            ->firstOrFail();
+
+        if ($user->expire_at <= Carbon::now()) {
+            $user->delete();
+            return response()->json(['message' => 'Sorry, your trial has expired. Thank you!'], 400);
+        }
+
         $request->session()->regenerate();
         return response()->json(['message' => 'Authenticated'], 200, []);
     }
@@ -41,10 +50,11 @@ class AuthController extends Controller
             return response()->json(['message' => 'Email already registered'], 400, []);
 
         $password = Str::random(8);
-        $new_user = DB::transaction(function () use ($email, $password) {
+        DB::transaction(function () use ($email, $password) {
             $new_user = new User();
             $new_user->email = $email;
             $new_user->password =  $password;
+            $new_user->expire_at = Carbon::now()->addDay(1);
             $new_user->save();
 
             $sendgrid_mail = new Mail();
@@ -60,12 +70,10 @@ class AuthController extends Controller
             } catch (Exception $e) {
                 throw $e;
             }
-
-            return $new_user;
         });
 
 
-        return response()->json(['email' => $new_user->email, 'access_code' => $password], 200, []);
+        return response()->json(['message' => 'Authenticated'], 200, []);
     }
 
     public function logout(Request $request)

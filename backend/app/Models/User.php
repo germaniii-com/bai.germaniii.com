@@ -43,6 +43,8 @@ class User extends Authenticatable
         'password' => 'hashed',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'expire_at' => 'datetime',
     ];
 
     public function conversations(): HasMany
