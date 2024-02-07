@@ -6,12 +6,22 @@ use App\Http\Requests\AccessRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DemoRequest;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use SendGrid;
+use SendGrid\Mail\Mail;
 
 class AuthController extends Controller
 {
+    private SendGrid $sendgrid;
+
+    public function __construct()
+    {
+        $this->sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+    }
+
     public function access(AccessRequest $request)
     {
         $credentials = ['email' => $request->email, 'password' => $request->access_code];
@@ -37,10 +47,24 @@ class AuthController extends Controller
             $new_user->password =  $password;
             $new_user->save();
 
+            $sendgrid_mail = new Mail();
+            $sendgrid_mail->setFrom("germaniiifelisarta@gmail.com", "German III");
+            $sendgrid_mail->addTo($email, "User");
+            $sendgrid_mail->setTemplateId(env('SENDGRID_ACCESS_EMAIL_TEMPLATE_ID'));
+            $sendgrid_mail->addDynamicTemplateData("access_code", $password);
+            $sendgrid_mail->addDynamicTemplateData("Sender_Name", "German III");
+            $sendgrid_mail->addDynamicTemplateData("login_url", "bai.germaniii.com/?email=" . $email . '&?access_code=' . $password);
+
+            try {
+                $this->sendgrid->send($sendgrid_mail);
+            } catch (Exception $e) {
+                throw $e;
+            }
+
             return $new_user;
         });
 
-        // TODO: Add code to call email sending of generated token
+
         return response()->json(['email' => $new_user->email, 'access_code' => $password], 200, []);
     }
 
