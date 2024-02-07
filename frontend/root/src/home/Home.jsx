@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./index.module.scss";
 import MainLayout from "../components/MainLayout";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { isValidEmail, isValidAccessCode } from "../utils/stringUtils";
 import axiosInstance, { axiosInstanceRoot } from "../utils/axiosInstance";
 
 function Home() {
+  const [params] = useSearchParams();
   const [accessRequest, setAccessRequest] = useState(0); // 0 - default, 1 - sign up, 2 - login
   const [formData, setFormData] = useState({ email: "", access_code: "" });
   const [formError, setFormError] = useState();
@@ -65,6 +66,27 @@ function Home() {
     setRequestDisabled(false);
     setAccessRequest(0);
   };
+
+  useEffect(() => {
+    if (!(params.has("email") && params.has("access_code"))) return;
+
+    axiosInstanceRoot
+      .get("/sanctum/csrf-cookie")
+      .then(() =>
+        axiosInstance
+          .post("/auth/access", {
+            email: params.get("email"),
+            access_code: params.get("access_code"),
+          })
+          .then(() => reroute("/chat"))
+          .catch(() => setFormError("Unauthenticated"))
+      )
+      .catch(() =>
+        setFormError(
+          "There was an error with the server. Please try again later."
+        )
+      );
+  }, [params]);
 
   return (
     <MainLayout>
