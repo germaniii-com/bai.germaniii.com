@@ -18,6 +18,7 @@ function Home() {
       return;
     }
 
+    setFormError("");
     switch (accessRequest) {
       case 1:
         if (requestDisabled) return;
@@ -55,11 +56,13 @@ function Home() {
   };
   const onInputChange = (newValue) => {
     setFormError("");
+    setRequestDisabled(false);
     setFormData((prev) => ({ ...prev, ...newValue }));
   };
   const onBackClicked = () => {
     setFormData({ email: "", access_code: "" });
     setFormError("");
+    setRequestDisabled(false);
     setAccessRequest(0);
   };
 
@@ -114,7 +117,14 @@ function Home() {
                 <div className={style.backButtonHolder} onClick={onBackClicked}>
                   <BiLeftArrowAlt /> Back
                 </div>
-                <div className={style.sendButtonHolder} onClick={submitForm}>
+                <div
+                  className={`${
+                    accessRequest === 1 && requestDisabled
+                      ? style.sendButtonHolder__disabled
+                      : style.sendButtonHolder
+                  }`}
+                  onClick={submitForm}
+                >
                   {accessRequest == 1 ? "Request" : "Access"}
                   <BiRightArrowAlt />
                 </div>
