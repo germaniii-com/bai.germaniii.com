@@ -2,7 +2,7 @@ import axios from "axios";
 
 const init = (path = "") => {
   const instance = axios.create({
-    baseURL: `http://localhost:8006${path}`,
+    baseURL: `bai-laravel.germaniii.com${path}`,
     withCredentials: true,
     withXSRFToken: true,
     timeout: 180000,

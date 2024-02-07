@@ -41,6 +41,15 @@ services:
     container_name: bai_ollama
     image: ollama/ollama
     restart: unless-stopped
+    environment:
+      - gpus=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     command: "serve"
     ports:
       - "8008:11434"
