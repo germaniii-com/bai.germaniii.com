@@ -4,7 +4,10 @@ import styles from "./index.module.scss";
 import { getDateFromISO } from "../../utils/dateUtils";
 
 function ChatBubble({ message, sendAt, role }) {
-  const sendAtFormatted = useMemo(() => getDateFromISO(sendAt, true), [sendAt]);
+  const sendAtFormatted = useMemo(
+    () => getDateFromISO(sendAt.length ? sendAt : undefined, true),
+    [sendAt]
+  );
   return (
     <div
       className={`${styles.chatBubbleWrapper} ${
