@@ -19,6 +19,7 @@ function Home() {
       return;
     }
 
+    setRequestDisabled(true);
     setFormError("");
     switch (accessRequest) {
       case 1:
@@ -31,9 +32,10 @@ function Home() {
               `Please check your email for the access code. If you have not received it, please check your spam folder as well. Thank you!`
             );
           })
-          .catch((error) =>
-            setFormError(error?.response?.data?.message ?? error.message)
-          );
+          .catch((error) => {
+            setFormError(error?.response?.data?.message ?? error.message);
+            setRequestDisabled(false);
+          });
         break;
       case 2:
         if (!isValidAccessCode(formData.access_code)) {
@@ -43,10 +45,14 @@ function Home() {
         axiosInstance
           .post("/auth/access", formData)
           .then((res) => {
+            setRequestDisabled(true);
             sessionStorage.setItem("token", res.data.token);
             reroute("/chat");
           })
-          .catch(() => setFormError("Unauthenticated"));
+          .catch(() => {
+            setRequestDisabled(true);
+            setFormError("Unauthenticated");
+          });
 
         break;
     }
