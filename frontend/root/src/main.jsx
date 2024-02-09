@@ -18,14 +18,14 @@ const router = createBrowserRouter([
   {
     path: "/chat/:conversationId?",
     loader: async () => {
-      const user = await axiosInstance
-        .get("/auth/user")
-        .then(() => true)
-        .catch(() => false);
+      // const user = await axiosInstance
+      //   .get("/auth/user")
+      //   .then(() => true)
+      //   .catch(() => false);
 
-      if (!user) {
-        throw redirect("/");
-      }
+      // if (!user) {
+      //   throw redirect("/");
+      // }
 
       return null;
     },

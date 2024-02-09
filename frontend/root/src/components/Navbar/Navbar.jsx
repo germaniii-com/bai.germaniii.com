@@ -15,9 +15,12 @@ const Navbar = () => {
   return (
     <nav className={style.navbar}>
       <span>
-        <div className={style.capitalTitle}>B</div>eyond{" "}
-        <div className={style.capitalTitle}>A</div>utomated{" "}
-        <div className={style.capitalTitle}>I</div>nteraction{" "}
+        <div className={style.capitalTitle}>B</div>
+        <div className={style.nonCapital}>eyond </div>
+        <div className={style.capitalTitle}>A</div>
+        <div className={style.nonCapital}>utomated </div>
+        <div className={style.capitalTitle}>I</div>
+        <div className={style.nonCapital}>nteraction </div>
       </span>
       <BiLogOut onClick={handleLogout} />
       <BiSun />

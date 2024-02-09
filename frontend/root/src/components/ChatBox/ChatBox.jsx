@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "./index.module.scss";
-import { BiSend } from "react-icons/bi";
-import { useParams } from "react-router-dom";
+import { BiPencil, BiSend } from "react-icons/bi";
+import { useNavigate, useParams } from "react-router-dom";
 import ChatBubble from "../ChatBubble/ChatBubble";
 import { Role } from "../../constants/ChatBoxConstants";
 import axiosInstance from "../../utils/axiosInstance";
@@ -21,6 +21,7 @@ const llmOptions = [
 ];
 
 function ChatBox({ conversations, addConversation, setConversations }) {
+  const reroute = useNavigate();
   const params = useParams();
   const [prompt, setPrompt] = useState("");
   const [llmOption, setLlmOption] = useState(llmOptions.at(0).id);
@@ -115,6 +116,7 @@ function ChatBox({ conversations, addConversation, setConversations }) {
     <div className={styles.conversationHolder}>
       <div className={styles.conversationWrapper}>
         <div className={styles.titleHolder}>
+          <BiPencil onClick={() => reroute(`/chat`)} />
           <h1>{currentConversation.title ?? ""}</h1>
           <select value={llmOption} onChange={(_) => setLlmOption(1)}>
             {llmOptions.map((llm) => (

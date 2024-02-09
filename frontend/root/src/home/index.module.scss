@@ -9,7 +9,7 @@
 
   & .floatee {
     width: fit-content;
-    max-width: 30%;
+    max-width: 75%;
     height: fit-content;
     border: 1em;
     border-color: black;
@@ -25,14 +25,17 @@
     & .subheader {
       font-weight: normal;
       font-size: large;
+      max-width: 90%;
     }
 
     & .requestButton {
       display: grid;
-      grid-template-columns: auto 1fr;
-      justify-items: end;
+      grid-template-rows: 1fr 1fr;
+      justify-items: center;
+      text-align: center;
 
       button {
+        width: 100%;
         background: #0878e7;
         color: white;
         border: none;
@@ -45,6 +48,7 @@
       }
 
       span {
+        width: 100%;
         padding-top: 0.5em;
         padding-left: 0.5em;
         display: block;
@@ -61,6 +65,8 @@
       display: grid;
       grid-template-rows: auto auto;
       row-gap: 1em;
+      justify-items: start;
+      width: 100%;
 
       form {
         display: grid;
@@ -76,12 +82,13 @@
           height: 30px;
           padding: 0.5em;
           font-size: x-large;
+          width: 90%;
         }
       }
 
       & .buttonsHolder {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr 1fr;
 
         & .backButtonHolder {
           display: flex;
@@ -123,6 +130,142 @@
           svg {
             height: 20px;
             width: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .content {
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & .floatee {
+      width: fit-content;
+      max-width: 30%;
+      height: fit-content;
+      border: 1em;
+      border-color: black;
+      border-radius: 1em;
+      padding: 1em;
+      box-shadow: 2px 2px 3px;
+
+      & .header {
+        font-weight: bold;
+        font-size: xx-large;
+      }
+
+      & .subheader {
+        font-weight: normal;
+        font-size: large;
+      }
+
+      & .requestButton {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        justify-items: end;
+
+        button {
+          width: 100%;
+          background: #0878e7;
+          color: white;
+          border: none;
+          border-radius: 1em;
+          font: inherit;
+          font-weight: bold;
+          cursor: pointer;
+          outline: inherit;
+        }
+
+        span {
+          width: 100%;
+          padding-top: 0.5em;
+          padding-left: 0.5em;
+          display: block;
+          font-size: small;
+          color: grey;
+          cursor: pointer;
+          &:hover {
+            color: #0878e7;
+          }
+        }
+      }
+
+      & .form {
+        display: grid;
+        grid-template-rows: auto auto;
+        row-gap: 1em;
+
+        form {
+          display: grid;
+          grid-template-rows: auto auto;
+          align-items: center;
+
+          p {
+            color: red;
+          }
+
+          input {
+            border-radius: 0.3em;
+            height: 30px;
+            padding: 0.5em;
+            font-size: x-large;
+            width: 90%;
+          }
+        }
+
+        & .buttonsHolder {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+
+          & .backButtonHolder {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            cursor: pointer;
+            &:hover {
+              color: grey;
+            }
+
+            svg {
+              height: 20px;
+              width: 20px;
+            }
+          }
+
+          & .sendButtonHolder__disabled {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: grey;
+
+            svg {
+              height: 20px;
+              width: 20px;
+              color: grey;
+            }
+          }
+
+          & .sendButtonHolder {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            cursor: pointer;
+            &:hover {
+              color: green;
+            }
+
+            svg {
+              height: 20px;
+              width: 20px;
+            }
           }
         }
       }

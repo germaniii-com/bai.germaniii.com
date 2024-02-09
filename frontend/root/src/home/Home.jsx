@@ -97,8 +97,11 @@ function Home() {
           <div className={style.header}>B.A.I.</div>
           <div className={style.subheader}>Beyond Automated Interaction</div>
           <p>
-            B.A.I. is a web application to interact with various Open Source
-            Large Language Models. Check out BAI today.
+            {accessRequest === 0
+              ? "B.A.I. is a web application to interact with Open Source Large Language Models. Check out BAI today."
+              : accessRequest === 1
+              ? "An email with the access code will be sent to you shortly after requesting for a demo."
+              : "Login to your demo account below to access BAI."}
           </p>
           {!accessRequest && (
             <div className={style.requestButton}>

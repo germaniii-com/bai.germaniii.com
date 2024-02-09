@@ -19,6 +19,17 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+
+      svg {
+        width: 30px;
+        height: 30px;
+        padding-left: 0.3em;
+        display: inline;
+        cursor: pointer;
+        &:hover {
+          color: grey;
+        }
+      }
       h3 {
         flex-grow: 1;
       }
@@ -97,5 +108,97 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .conversationHolder {
+    flex-grow: 1;
+    margin: 1em 1em 1em 0.5em;
+    max-height: 87vh;
+    & .conversationWrapper {
+      border: 1em;
+      border-color: black;
+      border-radius: 1em;
+      box-shadow: 2px 2px 3px grey;
+
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 0 1em;
+
+      & .titleHolder {
+        height: 10%;
+        min-height: 75px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        svg {
+          display: none;
+        }
+        h3 {
+          flex-grow: 1;
+        }
+
+        select {
+          margin-left: auto;
+          background-color: white;
+          border: none;
+          border-radius: 0.5em;
+          padding: 1em;
+
+          &:focus,
+          &:hover {
+            background-color: #0878e7;
+            color: white;
+          }
+        }
+      }
+
+      & .conversationBubblesHolder {
+        flex-grow: 1;
+        overflow-y: scroll;
+        max-height: 65vh;
+        display: flex;
+        flex-direction: column-reverse;
+      }
+      & .inputHolder {
+        height: 10%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-self: end;
+
+        form {
+          display: flex;
+          align-items: center;
+          justify-items: center;
+          gap: 1em;
+          textarea {
+            font: inherit;
+            width: calc(100% - 35px);
+            height: 3em;
+            padding-left: 1em;
+            padding-top: 1em;
+            resize: none;
+
+            border: 0.025em solid grey;
+            border-radius: 0.5em;
+          }
+
+          & .sendDisabled {
+            color: grey;
+            cursor: initial;
+          }
+          svg {
+            height: 35px;
+            width: 35px;
+            color: #0878e7;
+            cursor: pointer;
+          }
+        }
+      }
+    }
   }
 }
