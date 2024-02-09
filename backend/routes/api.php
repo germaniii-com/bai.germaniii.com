@@ -21,13 +21,10 @@ Route::get('/health', function () {
 });
 
 Route::post('/auth/request', [AuthController::class, 'request']);
-
-Route::middleware('web')->group(function () {
-    Route::post('/auth/access', [AuthController::class, 'access']);
-    Route::get('/auth/logout', [AuthController::class, 'logout']);
-});
+Route::post('/auth/access', [AuthController::class, 'access']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/user', [AuthController::class, 'user']);
 
     Route::get('/conversations', [ConversationController::class, 'index']);

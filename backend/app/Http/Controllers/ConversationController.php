@@ -15,7 +15,7 @@ class ConversationController extends Controller
     {
         $user = auth()->user();
         $conversations = $user->conversations;
-        return response()->json($conversations, 200, []);
+        return response()->json([$conversations], 200, []);
     }
 
     public function store(StoreConversationRequest $request)

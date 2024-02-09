@@ -6,7 +6,10 @@ import axiosInstance from "../../utils/axiosInstance";
 const Navbar = () => {
   const reroute = useNavigate();
   const handleLogout = () => {
-    axiosInstance.get("/auth/logout").finally(() => reroute("/"));
+    axiosInstance.get("/auth/logout").finally(() => {
+      sessionStorage.clear();
+      reroute("/");
+    });
   };
 
   return (

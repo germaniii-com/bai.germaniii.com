@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use SendGrid;
 use SendGrid\Mail\Mail;
@@ -26,19 +27,20 @@ class AuthController extends Controller
     public function access(AccessRequest $request)
     {
         $credentials = ['email' => $request->email, 'password' => $request->access_code];
-        if (!auth()->guard()->attempt($credentials))
-            return response()->json(['message' => 'Unauthenticated'], 401);
 
         $user = User::where('email', $request->email)
-            ->firstOrFail();
+            ->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password))
+            return response()->json(['message' => 'Unauthenticated'], 401);
 
         if ($user->expire_at <= Carbon::now()) {
             $user->delete();
             return response()->json(['message' => 'Sorry, your trial has expired. Thank you!'], 400);
         }
 
-        $request->session()->regenerate();
-        return response()->json(['message' => 'Authenticated'], 200, []);
+        $token = $user->createToken($credentials['email'])->plainTextToken;
+        return response()->json(['message' => 'Authenticated', 'token' => $token], 200, []);
     }
 
     public function request(DemoRequest $request)
@@ -53,7 +55,7 @@ class AuthController extends Controller
         DB::transaction(function () use ($email, $password) {
             $new_user = new User();
             $new_user->email = $email;
-            $new_user->password =  $password;
+            $new_user->password = $password;
             $new_user->expire_at = Carbon::now()->addDay(1);
             $new_user->save();
 
@@ -78,14 +80,10 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        if (auth()->guard()->guest())
-            return response()->json(['message' => 'Unauthenticated'], 400, []);
+        $user = auth()->user();
+        $user->tokens()->delete();
 
-        auth()->guard()->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerate();
-
-        return response()->json(['message' => 'Unauthenticated'], 400, []);
+        return response()->json(['message' => 'Logged out'], 400, []);
     }
 
     public function user()

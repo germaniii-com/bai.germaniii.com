@@ -31,26 +31,22 @@ function Home() {
               `Please check your email for the access code. If you have not received it, please check your spam folder as well. Thank you!`
             );
           })
-          .catch((error) => setFormError(error.message));
+          .catch((error) =>
+            setFormError(error?.response?.data?.message ?? error.message)
+          );
         break;
       case 2:
         if (!isValidAccessCode(formData.access_code)) {
           setFormError("Invalid Access Code");
           return;
         }
-        axiosInstanceRoot
-          .get("/sanctum/csrf-cookie")
-          .then(() =>
-            axiosInstance
-              .post("/auth/access", formData)
-              .then(() => reroute("/chat"))
-              .catch(() => setFormError("Unauthenticated"))
-          )
-          .catch(() =>
-            setFormError(
-              "There was an error with the server. Please try again later."
-            )
-          );
+        axiosInstance
+          .post("/auth/access", formData)
+          .then((res) => {
+            sessionStorage.setItem("token", res.data.token);
+            reroute("/chat");
+          })
+          .catch(() => setFormError("Unauthenticated"));
 
         break;
     }
