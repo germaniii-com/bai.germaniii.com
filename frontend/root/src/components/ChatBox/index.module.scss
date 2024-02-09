@@ -16,8 +16,8 @@
     & .titleHolder {
       height: 10%;
       min-height: 75px;
-      display: flex;
-      flex-direction: row;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
 
       svg {
@@ -30,8 +30,10 @@
           color: grey;
         }
       }
-      h3 {
-        flex-grow: 1;
+      h1 {
+        padding-left: 0.3em;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
 
       select {
@@ -130,15 +132,16 @@
       & .titleHolder {
         height: 10%;
         min-height: 75px;
-        display: flex;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: 1fr auto;
         align-items: center;
 
         svg {
           display: none;
         }
-        h3 {
-          flex-grow: 1;
+        h1 {
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
 
         select {
