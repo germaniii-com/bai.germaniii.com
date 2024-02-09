@@ -27,7 +27,7 @@ services:
       - "bai_db"
   bai_db:
     container_name: bai_db
-    image: mysql:5.7
+    image: mysql:8
     command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped
     ports:

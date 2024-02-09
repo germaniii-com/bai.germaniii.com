@@ -4,16 +4,16 @@ import Cookies from "universal-cookie";
 const init = (path = "") => {
   const cookies = new Cookies();
   const instance = axios.create({
-    baseURL: `bai-laravel.germaniii.com${path}`,
+    baseURL: `https://bai-laravel.germaniii.com${path}`,
     withCredentials: true,
-    withXSRFToken: true,
     timeout: 180000,
   });
 
   instance.interceptors.request.use((config) => {
     config.headers.Accept = "application/json";
     config.headers["Content-Type"] = "application/json";
-    config.headers["X-XSRF-TOKEN"] = cookies.get("XSRF-TOKEN");
+    config.headers["X-XSRF-TOKEN"] = `${cookies.get("XSRF-TOKEN")}`;
+    console.log("dociment.cookie", document.cookie);
     return config;
   });
 
