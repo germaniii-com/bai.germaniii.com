@@ -2,7 +2,7 @@ import axios from "axios";
 
 const init = (path = "") => {
   const instance = axios.create({
-    baseURL: `https://bai-laravel.germaniii.com${path}`,
+    baseURL: `${import.meta.env.VITE_BACKEND_URL}${path}`,
     withCredentials: true,
     timeout: 180000,
   });
@@ -18,6 +18,6 @@ const init = (path = "") => {
   return instance;
 };
 
-const axiosInstance = init("/api");
+const axiosInstance = init("${import.meta.env.VITE_BACKEND_API_PATH}");
 export const axiosInstanceRoot = init();
 export default axiosInstance;
