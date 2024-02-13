@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('ALLOWED_ORIGINS')->explode(',')],
+    'allowed_origins' => ['http://localhost:8005', 'https://bai.germaniii.com'],
 
     'allowed_origins_patterns' => [],
 

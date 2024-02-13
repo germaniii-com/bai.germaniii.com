@@ -1,7 +1,6 @@
 FROM node:lts
 WORKDIR /app
 COPY . .
-COPY .env.example .env
 COPY package*.json .
 RUN npm install
 RUN npm run build
