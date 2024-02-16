@@ -1,0 +1,86 @@
+.header {
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+.subheader {
+  font-weight: normal;
+  font-size: large;
+  max-width: 90%;
+}
+
+.requestButton {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  justify-items: center;
+  text-align: center;
+
+  button {
+    width: 100%;
+    background: #0878e7;
+    color: white;
+    border: none;
+    border-radius: 1em;
+    padding: 0.5em;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    outline: inherit;
+  }
+
+  span {
+    width: 100%;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+    display: block;
+    font-size: small;
+    color: grey;
+    cursor: pointer;
+    &:hover {
+      color: #0878e7;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .header {
+    font-weight: bold;
+    font-size: xx-large;
+  }
+
+  .subheader {
+    font-weight: normal;
+    font-size: large;
+  }
+
+  .requestButton {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-items: end;
+
+    button {
+      width: 100%;
+      background: #0878e7;
+      color: white;
+      border: none;
+      border-radius: 1em;
+      font: inherit;
+      font-weight: bold;
+      cursor: pointer;
+      outline: inherit;
+    }
+
+    span {
+      width: 100%;
+      padding-top: 0.5em;
+      padding-left: 0.5em;
+      display: block;
+      font-size: small;
+      color: grey;
+      cursor: pointer;
+      &:hover {
+        color: #0878e7;
+      }
+    }
+  }
+}

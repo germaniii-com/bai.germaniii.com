@@ -9,11 +9,28 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import axiosInstance from "./utils/axiosInstance";
+import HomeView from "./home/views/home/HomeView";
+import AccessView from "./home/views/access/AccessView";
+import RequestView from "./home/views/register/RequestView";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    children: [
+      {
+        index: true,
+        element: <HomeView />,
+      },
+      {
+        path: "request",
+        element: <RequestView />,
+      },
+      {
+        path: "access",
+        element: <AccessView />,
+      },
+    ],
   },
   {
     path: "/chat/:conversationId?",
