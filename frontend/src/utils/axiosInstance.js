@@ -2,7 +2,7 @@ import axios from "axios";
 
 const init = (path = "") => {
   const instance = axios.create({
-    baseURL: `https://bai-laravel.germaniii.com${path}`,
+    baseURL: `http://bai-laravel.germaniii.com${path}`,
     withCredentials: true,
     timeout: 180000,
   });
