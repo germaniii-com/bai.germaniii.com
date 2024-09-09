@@ -16,7 +16,7 @@ class OllamaConnector
 
         set_time_limit(0);
         $ollama_response = Http::timeout(180)
-            ->post('http://bai_ollama:11434/api/generate', $body);
+            ->post(env('OLLAMA_BASE_URL') ."/api/generate", $body);
 
         $data = $ollama_response->json();
 
@@ -33,7 +33,7 @@ class OllamaConnector
 
         set_time_limit(0);
         $ollama_response = Http::timeout(180)
-            ->post('http://bai_ollama:11434/api/chat', $body);
+            ->post(env('OLLAMA_BASE_URL') . '/api/chat', $body);
 
         $data = $ollama_response->json();
 
