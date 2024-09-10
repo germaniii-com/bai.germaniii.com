@@ -15,9 +15,9 @@ const initialPrompt = {
 };
 
 const llmOptions = [
-  { id: "1", name: "Llama 2" },
-  { id: "2", name: "Phi-2" },
-  { id: "3", name: "Orca Mini" },
+  { id: "1", name: "Gemma 2B" },
+  // { id: "2", name: "Phi-2" },
+  // { id: "3", name: "Orca Mini" },
 ];
 
 function ChatBox({ conversations, addConversation, setConversations }) {
@@ -25,7 +25,7 @@ function ChatBox({ conversations, addConversation, setConversations }) {
   const params = useParams();
   const [prompt, setPrompt] = useState("");
   const [llmOption, setLlmOption] = useState(llmOptions.at(0).id);
-  const [messages, setExtraMessages] = useState([initialPrompt]);
+  const [messages, setExtraMessages] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const sendDisabled = useMemo(() => !prompt.length, [prompt]);
   const currentConversation = useMemo(
@@ -47,7 +47,7 @@ function ChatBox({ conversations, addConversation, setConversations }) {
     setIsSending(true);
 
     if (!params.conversationId) {
-      addConversation({ message: prompt, model: "llama2" });
+      addConversation({ message: prompt, model: "gemma2:2b" });
       setIsSending(false);
       return;
     }
@@ -55,7 +55,7 @@ function ChatBox({ conversations, addConversation, setConversations }) {
     axiosInstance
       .post(`/conversations/${params.conversationId}/messages`, {
         message: prompt,
-        model: "llama2",
+        model: "gemma2:2b",
       })
       .then((res) => {
         const messages = res.data;
@@ -73,10 +73,10 @@ function ChatBox({ conversations, addConversation, setConversations }) {
             conversation.id !== messages[0].conversation_id
               ? conversation
               : {
-                  ...conversation,
-                  lastMessage: messages[0].message,
-                  send_at: messages[0].created_at,
-                }
+                ...conversation,
+                lastMessage: messages[0].message,
+                send_at: messages[0].created_at,
+              }
           )
         );
       })
@@ -104,7 +104,7 @@ function ChatBox({ conversations, addConversation, setConversations }) {
           }))
         );
       })
-      .catch(() => {});
+      .catch(() => { });
   }, [params.conversationId, setExtraMessages]);
 
   const messagesSorted = useMemo(
@@ -127,6 +127,11 @@ function ChatBox({ conversations, addConversation, setConversations }) {
           </select>
         </div>
         <div className={styles.conversationBubblesHolder}>
+          {!messagesSorted.length && <ChatBubble
+            message={initialPrompt.message}
+            sendAt={initialPrompt.sendAt}
+            role={initialPrompt.role}
+          />}
           {messagesSorted &&
             messagesSorted.map((message) => (
               <ChatBubble

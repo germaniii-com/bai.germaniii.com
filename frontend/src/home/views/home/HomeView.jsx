@@ -13,12 +13,14 @@ function HomeView() {
       </p>
       <div className={style.buttonsHolder}>
         <div className={style.requestButton}>
-          <button onClick={() => reroute("/request")}>
-            Request a demo {">"}
+          <button onClick={() => reroute("/chat")}>
+            Try out the demo {">"}
           </button>
+          {/*
           <span onClick={() => reroute("/access")}>
             Already have an access code?
           </span>
+          */}
         </div>
       </div>
     </>

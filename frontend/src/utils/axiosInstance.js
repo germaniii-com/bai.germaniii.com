@@ -2,7 +2,7 @@ import axios from "axios";
 
 const init = (path = "") => {
   const instance = axios.create({
-    baseURL: `http://bai-laravel.germaniii.com${path}`,
+    baseURL: `${import.meta.env.LARAVEL_BASE_URL}${path}`,
     withCredentials: true,
     timeout: 180000,
   });
